@@ -1,0 +1,135 @@
+---
+###############################################################
+#                   Authelia configuration                    #
+###############################################################
+
+host: 0.0.0.0
+port: 9091
+log_level: debug
+theme: dark
+jwt_secret: safdkj3258209rjalksfj9e580932jrflkajr01291209khd4309wt
+#default_redirection_url: https://authelia.kubertest.tezblock.io
+
+totp:
+  issuer: kubertest.tezblock.io
+  period: 30
+  skew: 1
+
+# duo_api:
+#  hostname: api-123456789.example.com
+#  integration_key: ABCDEF
+#  # This secret can also be set using the env variables AUTHELIA_DUO_API_SECRET_KEY_FILE
+#  secret_key: 1234567890abcdefghifjkl
+
+authentication_backend:
+    file:
+        path: /config/users_database.yml
+        password:
+            algorithm: argon2id
+            iterations: 1
+            salt_length: 16
+            parallelism: 8
+            memory: 64
+
+access_control:
+    default_policy: one_factor
+    rules:
+        - domain: portainer.kubertest.tezblock.io
+          policy: two_factor
+        - domain: nginx.kubertest.tezblock.io
+          policy: one_factor
+        - domain: "traefik.kubertest.tezblock.io"
+          policy: one_factor
+        - domain: "grafana.kubertest.tezblock.io"
+          policy: one_factor
+        - domain: "pgadmin.kubertest.tezblock.io"
+          policy: two_factor
+        - domain: "goaccess.kubertest.tezblock.io"
+          policy: one_factor
+        - domain: "ipfs.kubertest.tezblock.io"
+          policy: one_factor
+        - domain: "uptime.kubertest.tezblock.io"
+          policy: one_factor
+          # resources:
+          #   - '^/manifest.json$'
+
+session:
+    name: authelia_session
+    # This secret can also be set using the env variables AUTHELIA_SESSION_SECRET_FILE
+    secret: unsecure_session_secret
+    expiration: 36000 # 10 hour
+    inactivity: 3600 # 1 hours
+    domain: kubertest.tezblock.io
+
+    # redis:
+    #   host: redis
+    #   port: 6379
+    #   # This secret can also be set using the env variables AUTHELIA_SESSION_REDIS_PASSWORD_FILE
+    #   # password: authelia
+
+regulation:
+    max_retries: 3
+    find_time: 120
+    ban_time: 300
+
+storage:
+    encryption_key: "8yhwrG2Ckq5TmZUOc3E8TuCiq0VSOAYknw7KHgnpH2uTnFPkPxXK3ncWBmFOPTCk"
+    local:
+        path: /config/db.sqlite3
+
+notifier:
+    # smtp:
+    #   username: test
+    #   # This secret can also be set using the env variables AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE
+    #   password: password
+    #   host: mail.example.com
+    #   port: 25
+    #   sender: admin@example.com
+    filesystem:
+        filename: /config/notification.txt
+
+identity_providers:
+  oidc:
+    hmac_secret: k9S997hHP5wd5s7FR5SHHIlInHSUC4IjMHAZbCX5tkdAZSha8fJaxs8qCrTsN8e6
+    issuer_private_key: |
+      -----BEGIN RSA PRIVATE KEY-----
+      MIIEowIBAAKCAQEA2L1siLjJlDvhXLvW5wG+MkhT+a4EsUswkSCizXovEuxOs1NJ
+      cOCYxHk7eGlcatSjPfKDNMi05lkfNpeOFuJ7nd8PIQ8pS6g/5zGppbtVkdqyQo9N
+      0I8kGsHoUZAsCBzEyjIkq/nyGv1DmzIt+6gwn6KCVJuM/jZ1QP7SP46Vdok27wL+
+      pn003X/F19H1lpD/aSzCpgCnVOqFeW/QgBstzmoGY6VBEUFyzuqd6663/EKRLvgx
+      BAH5br2BtZ+37zHNzH4Uk4c4o2CXOgRltVQbdyy67NRVIEdCKfiZYklgagpNPB8j
+      BDnjhkcN6KkirVILVl0VauXq2FRirHM4ow77VQIDAQABAoIBAHr+E0cKxalOybZc
+      CbmRbaMPFEhNjfAmIOtaP8imm2v7mTV9/+EEMuzbdvn/oCgnfnM62WXst2s4C9Ro
+      8ILgBxIxcF5sQhzi31CNCB46Tna0ShAnThsZ/30HqJQQYkxANxQenFzTO6ZBLko1
+      kY6LhPwxtg/ZLYtcz/EQKbNTcFGQw+tkbHoPy0biMLob2G1KaIBPIg0trv7AONwG
+      bwt92elH6c9N/55PLw1mxCXX9GdxFullpLEJ2nFdUVKXFJkm7N4crxD68TtE14Cm
+      +fqttLDjcYNXQMN7r+JX8/gixbA0VE3t7QUFC5i4viOtW+FENFiGLke5ZBwIXyIn
+      5q7FXoECgYEA2e9FORMbAfTGTG5jbeNw7scNZomwojnOXTChh+fZTRSkTITNElsI
+      Zxb0CTX/kXeD/mobDCY2WydyXxfZAxXQzDSfVENuCGpg9eV+wUPRO+GhIW1Wh22V
+      ugjSReyn21Dsf10vVucoaCPUeSAN5wppjiDobOo7rLu5gTl4sO7pwnECgYEA/pi7
+      sZ+whlHMi2A7OuKPoqSFP3kJPet+rX5Z4AGccTQ7eAqZBrdVG4v6eufn8C8MJhL2
+      BUelrfp5eH8SnDtc6tC0N2amHwMkGBNDMqIAUuvStEGFLpYKfFErreUuVNnwWvfv
+      rj8A/BTXAa3HFZfr4OREaaDzgzMANmqS1IiScSUCgYBYcd9xA0zxpUoY2K/nd+ds
+      MEJC+9xAah9S+JqFklVBEACBwV+MdH9bfxg46L44Zf2ecadabeOfaMnkx8Pdmavs
+      Q+rpgpgUOD/za1jezEwM9kuzSjFUsueR4WSc1idlPVlNcx70MMnYQbpIEfcybapa
+      8QYCtajUODdXt2BAxiT+MQKBgEI8Rght/STUvxw7iu1E6A1uM+RRfuAHFkvYpVUr
+      1iF1b0tJpooixBeIkT/MeYD5HHYDVNIG08mxckyw8oyGvSOx7FDFec5zqL5CtKbF
+      ksP/6i9PJHD8Q/oXu/9fsnAMywU/n7F7Xqw2V8FuDm9FuO4nNM0uPGwTpqiBjXWR
+      mlepAoGBAI6Wp3+YDXAiKFehLHu4YkHSOprCm9784Tv9Cw/z6aXDqq5Qblmo+odm
+      LttdU1tVSrSLvJ7lP7tIyq8B5frHsWDaQzJfFuLNOu4E+dteDCEQjqtch1kq20vT
+      9KASAUMwYjNZiR+iqZ4hzMPNXeXfivUMUIe1ARjNqXTm7Q2eEW+r
+      -----END RSA PRIVATE KEY-----
+    clients:
+    - id: portainer
+      description: Portainer
+      secret: '$pbkdf2-sha512$310000$c8p78n7pUMln0jzvd4aK4Q$JNRBzwAo0ek5qKn50cFzzvE9RXV88h1wJn5KGiHrD0YKtZaR/nCb2CJPOsKaPK0hjf.9yHxzQGZziziccp6Yng'  # The digest of 'insecure_secret'.
+      public: false
+      authorization_policy: two_factor
+      redirect_uris:
+        - https://portainer.kubertest.tezblock.io
+      scopes:
+        - openid
+        - profile
+        - groups
+        - email
+      userinfo_signing_algorithm: none
