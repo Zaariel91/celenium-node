@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  node:
+    container_name: mainnet-node
+    restart: always
+    image: ghcr.io/celestiaorg/celestia-app:v1.9.0
+    environment:
+      POSTGRES_USER: test
+    command:
+      start --home /home
+    volumes:
+      - /mainnet:/home
+    ports:
+      - 127.0.0.1:26757:26657
