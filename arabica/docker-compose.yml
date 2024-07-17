@@ -1,0 +1,12 @@
+node:
+  container_name: arabica-cons
+  restart: always
+  image: ghcr.io/celestiaorg/celestia-app:v1.7.0
+  environment:
+    POSTGRES_USER: test
+  command:
+    start --home /home
+  volumes:
+    - /arabica:/home
+  ports:
+    - 127.0.0.1:26657:26657
