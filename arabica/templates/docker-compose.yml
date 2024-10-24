@@ -3,11 +3,11 @@ services:
   node:
     container_name: arabica-cons
     restart: always
-    image: ghcr.io/celestiaorg/celestia-app:v1.7.0
+    image: ghcr.io/celestiaorg/celestia-app:v3.0.0-arabica
     environment:
       POSTGRES_USER: test
     command:
-      start --home /home
+      start --home /home --v2-upgrade-height 1751707
     volumes:
       - /arabica:/home
     ports:
