@@ -3,11 +3,11 @@ services:
   mainnet-node:
     container_name: mainnet-node
     restart: always
-    image: ghcr.io/celestiaorg/celestia-app:v1.9.0
+    image: ghcr.io/celestiaorg/celestia-app:v2.1.2
     environment:
       POSTGRES_USER: test
     command:
-      start --home /home
+      start --home /home --v2-upgrade-height 2371495
     volumes:
       - /mainnet:/home
     ports:
