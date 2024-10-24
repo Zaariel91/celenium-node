@@ -3,11 +3,11 @@ services:
   mocha-node:
     container_name: mocha-node
     restart: always
-    image: ghcr.io/celestiaorg/celestia-app:v1.9.0
+    image: ghcr.io/celestiaorg/celestia-app:v2.2.0
     environment:
       POSTGRES_USER: test
     command:
-      start --home /home
+      start --home /home --v2-upgrade-height 2585031
     volumes:
       - /mocha:/home
     ports:
