@@ -245,10 +245,10 @@ flush_throttle_timeout = "100ms"
 max_packet_msg_payload_size = 1024
 
 # Rate at which packets can be sent, in bytes/second
-send_rate = 5120000
+send_rate = 10485760
 
 # Rate at which packets can be received, in bytes/second
-recv_rate = 5120000
+recv_rate = 10485760
 
 # Set true to enable the peer-exchange reactor
 pex = true
@@ -328,7 +328,7 @@ ttl-duration = "1m15s"
 # Note, if ttl-duration is also defined, a transaction will be removed if it
 # has existed in the mempool at least ttl-num-blocks number of blocks or if
 # it's insertion time into the mempool is beyond ttl-duration.
-ttl-num-blocks = 5
+ttl-num-blocks = 12
 
 #######################################################
 ###         State Sync Configuration Options        ###
