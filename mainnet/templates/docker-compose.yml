@@ -3,7 +3,7 @@ services:
   mainnet-node:
     container_name: mainnet-node
     restart: always
-    image: ghcr.io/celestiaorg/celestia-app:v2.1.2
+    image: ghcr.io/celestiaorg/celestia-app:v3.0.2
     environment:
       POSTGRES_USER: test
     command:
